@@ -11,7 +11,7 @@ def read_input_file(filename: Path = Path("day_01/input.txt")) -> List[int]:
     Reads the input file and outputs the list of numbers that was in it.
     """
     sequence: List[int] = []
-    with open(filename, 'r') as fd:
+    with open(filename, "r") as fd:
         for line in fd:
             sequence.append(int(line))
     return sequence
@@ -26,7 +26,7 @@ def generate_pairs(input_sequence: List[int]) -> List[List[int]]:
     """
     out: List[List[int]] = []
     for i in range(1, len(input_sequence)):
-        out.append([input_sequence[i-1], input_sequence[i]])
+        out.append([input_sequence[i - 1], input_sequence[i]])
     return out
 
 
@@ -36,7 +36,7 @@ def generate_sliding_windows(input_sequence: List[int]) -> List[List[int]]:
     """
     out: List[List[int]] = []
     for i in range(2, len(input_sequence)):
-        out.append([input_sequence[i-2], input_sequence[i-1], input_sequence[i]])
+        out.append([input_sequence[i - 2], input_sequence[i - 1], input_sequence[i]])
     return out
 
 
@@ -52,6 +52,7 @@ def sum_inner_lists(input_lists: List[List[int]]) -> List[int]:
         out.append(sum(l))
     return out
 
+
 def check_increases(input_pairs: List[List[int]]) -> List[bool]:
     """
     Checks if the second value of any given pair is greater than the first.
@@ -63,6 +64,7 @@ def check_increases(input_pairs: List[List[int]]) -> List[bool]:
         else:
             out.append(False)
     return out
+
 
 if __name__ == "__main__":
     input_sequence = read_input_file()
