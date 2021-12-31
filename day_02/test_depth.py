@@ -34,9 +34,13 @@ def test_execute_command():
     sub.execute(SubCommand("backward", 3))
     assert sub.horizontal == -1
     sub.execute(SubCommand("down", 3))
-    assert sub.depth == 3
+    assert sub.aim == 3
+    sub.execute(SubCommand("forward", 2))
+    assert sub.depth == 6
     sub.execute(SubCommand("up", 1))
-    assert sub.depth == 2
+    assert sub.aim == 2
+    sub.execute(SubCommand("forward", 2))
+    assert sub.depth == 6 + 4  # The original 6 + the expected 4
 
 
 def test_parse_commands():
