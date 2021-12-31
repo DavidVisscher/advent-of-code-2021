@@ -48,6 +48,11 @@ def read_input_file(filename: Path = Path("input.txt")) -> List[SubCommand]:
 
 
 def parse_commands(command_string: str) -> List[SubCommand]:
+    """
+    Takes a string with a command on each line.
+    Each line is converted into a SubCommand.
+    A list of all SubCommands parse from the command_string is returned.
+    """
     out: List[SubCommand] = []
     for line in command_string.splitlines():
         direction, amount = line.split(" ")
@@ -56,11 +61,15 @@ def parse_commands(command_string: str) -> List[SubCommand]:
 
 
 def run_challenge():
+    """
+    Chains the functions together to get the challenge result.
+    """
     commands = read_input_file()
-    sub = Submarine(0,0)
+    sub = Submarine(0, 0)
     for command in commands:
         sub.execute(command)
     print(sub)
+
 
 if __name__ == "__main__":
     run_challenge()
