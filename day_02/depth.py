@@ -18,6 +18,7 @@ class SubCommand:
 class Submarine:
     horizontal: int
     depth: int = field(validator=validators.instance_of(int))  # type: ignore
+    aim: int = 0
 
     @depth.validator
     def cannot_go_above_waterline(self, attribute, value):
@@ -27,12 +28,14 @@ class Submarine:
     def execute(self, command: SubCommand):
         if command.direction == "forward":
             self.horizontal += command.amount
+            self.depth += self.aim * command.amount
         elif command.direction == "backward":
             self.horizontal -= command.amount
+            self.depth -= self.aim * command.amount
         elif command.direction == "up":
-            self.depth -= command.amount
+            self.aim -= command.amount
         elif command.direction == "down":
-            self.depth += command.amount
+            self.aim += command.amount
 
 
 def read_input_file(filename: Path = Path("input.txt")) -> List[SubCommand]:
