@@ -11,8 +11,8 @@ def read_input_file(filename: Path = Path("day_01/input.txt")) -> List[int]:
     Reads the input file and outputs the list of numbers that was in it.
     """
     sequence: List[int] = []
-    with open(filename, "r") as fd:
-        for line in fd:
+    with open(filename, "r", encoding="utf-8") as file_handle:
+        for line in file_handle:
             sequence.append(int(line))
     return sequence
 
@@ -48,8 +48,8 @@ def sum_inner_lists(input_lists: List[List[int]]) -> List[int]:
         Output:[ 3, 5 ]
     """
     out: List[int] = []
-    for l in input_lists:
-        out.append(sum(l))
+    for input_list in input_lists:
+        out.append(sum(input_list))
     return out
 
 
@@ -66,7 +66,10 @@ def check_increases(input_pairs: List[List[int]]) -> List[bool]:
     return out
 
 
-if __name__ == "__main__":
+def main():
+    """
+    Main entrypoint for the program.
+    """
     input_sequence = read_input_file()
     input_pairs = generate_pairs(input_sequence)
     print("Calculating regular increases:")
@@ -81,3 +84,6 @@ if __name__ == "__main__":
     increases = check_increases(window_pairs)
     increase_count = len([x for x in increases if x is True])
     print(f"Increases: {increase_count}")
+
+if __name__ == "__main__":
+    main()
