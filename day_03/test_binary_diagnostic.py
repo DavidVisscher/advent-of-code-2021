@@ -18,6 +18,8 @@ def test_create_report():
     assert d.width == 3
     with pytest.raises(ValueError):
         DiagnosticReport([[True, False], [True]])
+    with pytest.raises(ValueError):
+        DiagnosticReport([True, False], {True, False})
 
 
 def test_parse_row():
@@ -25,7 +27,8 @@ def test_parse_row():
     assert parse_row('1') == [True]
     assert parse_row('01') == [False, True]
     assert parse_row('10') == [True, False]
-
+    with pytest.raises(ValueError):
+        parse_row('20')
 
 def test_parse_append():
     d = DiagnosticReport()
