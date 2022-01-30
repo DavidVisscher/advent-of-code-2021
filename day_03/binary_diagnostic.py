@@ -1,8 +1,8 @@
 """
 Advent of Code 2021 Day 3: Binary Diagnostic
 """
-
-from typing import List
+import copy
+from typing import List, Dict
 from attrs import define, validators, field, Factory
 
 
@@ -66,14 +66,18 @@ class DiagnosticReport:
 
     @property
     def digit_counts(self):
+        return self.count_digits(self.binary_data, self.width)
+
+    @staticmethod
+    def count_digits(binary_data: List[List[bool]], width: int):
         counts = []
         # Establish counters per row
-        for _ in range(self.width):
+        for _ in range(width):
             counts.append({True: 0, False: 0})
 
         # Count the rows
-        for row in self.binary_data:
-            for i in range(self.width):
+        for row in binary_data:
+            for i in range(width):
                 counts[i][row[i]] += 1
 
         return counts
@@ -102,3 +106,81 @@ class DiagnosticReport:
     @property
     def power_consumption(self):
         return self.gamma_rate * self.epsilon_rate
+
+    @property
+    def most_common_digits(self):
+        return self.calculate_most_common_digits(self.binary_data)
+
+    def calculate_most_common_digits(self, binary_data: List[List[bool]]) -> List[bool]:
+        """
+        Returns the most common digits for each column
+
+        Values are memoized.
+        """
+        out = []
+
+        for count in self.count_digits(binary_data, self.width):
+            if count[True] >= count[False]:
+                out.append(True)
+            else:
+                out.append(False)
+
+        return out
+
+    @property
+    def least_common_digits(self):
+        return self.calculate_least_common_digits(self.binary_data)
+
+    def calculate_least_common_digits(self, binary_data: List[List[bool]]) -> List[bool]:
+        """
+        Determines the least common digits for each column.
+        Inverse of most_common_digits
+        """
+        out = []
+        for digit in self.calculate_most_common_digits(binary_data):
+            out.append(not digit)
+        return out
+
+    @staticmethod
+    def bool_list_to_str(bool_list: List[bool]) -> str:
+        digits = ""
+        for bin_digit in bool_list:
+            if bin_digit:
+                digits += "1"
+            else:
+                digits += "0"
+        return digits
+
+    def bool_list_to_int(self, bool_list: List[bool]) -> int:
+        return int(self.bool_list_to_str(bool_list), 2)
+
+    @property
+    def oxygen_generator_rating(self):
+        return self.calculate_rating(self.calculate_most_common_digits)
+
+    @property
+    def co2_scrubber_rating(self):
+        return self.calculate_rating(self.calculate_least_common_digits)
+
+    @property
+    def life_support_rating(self):
+        return self.oxygen_generator_rating * self.co2_scrubber_rating
+
+    def calculate_rating(self, bit_criteria) -> int:
+        """
+        Determines the oxygen generator rating
+        """
+        values = copy.deepcopy(self.binary_data)
+
+        for bit_position in range(self.width):
+            most_common_value = bit_criteria(values)[bit_position]
+            for value in copy.deepcopy(values):
+                if value[bit_position] != most_common_value and len(values) > 1:
+                    values.remove(value)
+
+            if len(values) == 1:
+                continue
+
+        out = values[0]
+
+        return self.bool_list_to_int(out)

@@ -30,6 +30,7 @@ def test_parse_row():
     with pytest.raises(ValueError):
         parse_row('20')
 
+
 def test_parse_append():
     d = DiagnosticReport()
     d.append_line("01010")
@@ -78,9 +79,25 @@ def test_official_example():
     assert d.gamma_rate == 22
     assert d.epsilon_rate == 9
     assert d.power_consumption == 22 * 9
+    assert d.oxygen_generator_rating == 23
+    assert d.co2_scrubber_rating == 10
+    assert d.life_support_rating == 230
 
 
 def test_with_input_file():
     input_text = open('day_03/input.txt', 'r').read()
     report = DiagnosticReport.from_str(input_text)
     assert report.power_consumption == 3277364
+    assert report.life_support_rating == 5736383
+
+
+def test_bit_criteria():
+    d = DiagnosticReport([
+        [True, True, True],
+        [True, True, False],
+        [True, False, False],
+        [True, False, False]
+    ])
+
+    assert d.most_common_digits == [True, True, False]
+    assert d.least_common_digits == [False, False, True]
