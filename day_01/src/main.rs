@@ -17,7 +17,6 @@ fn sum_sliding_windows(input_values: Vec<i32>) -> Vec<i32> {
     output_values
 }
 
-
 /// Creates pairs from an input vector
 fn create_pairs(input_values: Vec<i32>) -> Vec<[i32; 2]> {
     let mut output_pairs: Vec<[i32;2]> = Vec::with_capacity(input_values.len());
@@ -43,7 +42,6 @@ fn count_increases(pairs: Vec<[i32; 2]>) -> i32 {
 
 /// Reads the input file and parses each line into an i32
 fn read_input_file(filename: &str) -> Vec<i32> {
-    println!("Input filename {}", filename);
     let contents = fs::read_to_string(filename)
         .expect("Reading file failed.");
 
