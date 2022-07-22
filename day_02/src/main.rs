@@ -47,9 +47,9 @@ fn parse_instruction(input_string: &str) -> Instruction {
     let amount: i32 = parts[1].parse().unwrap();
 
     match direction_str {
-        "forward" => Instruction { operation: Operation::add_horizontal, amount },
-        "up" => Instruction { operation: Operation::add_aim, amount: -amount },
-        "down" => Instruction { operation: Operation::add_aim, amount },
+        "forward" => Instruction { operation: Operation::AddHorizontal, amount },
+        "up" => Instruction { operation: Operation::AddAim, amount: -amount },
+        "down" => Instruction { operation: Operation::AddAim, amount },
         &_ => panic!()
     }
 }
