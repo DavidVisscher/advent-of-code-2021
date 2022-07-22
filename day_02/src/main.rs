@@ -1,10 +1,9 @@
 use std::fs;
-use std::process::ExitCode;
 
 #[derive(Debug)]
 enum Operation {
-    add_horizontal,
-    add_aim,
+    AddHorizontal,
+    AddAim,
 }
 
 #[derive(Debug)]
@@ -30,8 +29,8 @@ fn simulate_position(instructions: Vec<Instruction>) -> i32 {
 
     for instruction in instructions {
         match instruction.operation {
-            Operation::add_aim => aim += instruction.amount,
-            Operation::add_horizontal => {
+            Operation::AddAim => aim += instruction.amount,
+            Operation::AddHorizontal => {
                 horizontal += instruction.amount;
                 depth += instruction.amount * aim;
             }
