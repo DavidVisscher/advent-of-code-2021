@@ -4,7 +4,7 @@ use std::process::ExitCode;
 #[derive(Debug)]
 enum Operation {
     add_horizontal,
-    add_depth
+    add_aim
 }
 
 #[derive(Debug)]
@@ -27,11 +27,15 @@ fn main() {
 fn simulate_position(instructions: Vec<Instruction>) -> i32 {
     let mut depth = 0;
     let mut horizontal = 0;
+    let mut aim = 0;
 
     for instruction in instructions {
         match instruction.operation {
-            Operation::add_depth => depth += instruction.amount,
-            Operation::add_horizontal => horizontal += instruction.amount
+            Operation::add_aim => aim += instruction.amount,
+            Operation::add_horizontal => {
+                horizontal += instruction.amount;
+                depth += instruction.amount * aim;
+            }
         }
     }
 
@@ -46,8 +50,8 @@ fn parse_instruction(input_string: &str) -> Instruction {
 
     match direction_str {
         "forward" => Instruction{ operation: Operation::add_horizontal, amount},
-        "up" => Instruction{ operation: Operation::add_depth, amount: -amount},
-        "down" => Instruction{ operation: Operation::add_depth, amount},
+        "up" => Instruction{ operation: Operation::add_aim, amount: -amount},
+        "down" => Instruction{ operation: Operation::add_aim, amount},
         &_ => panic!()
     }
 }
