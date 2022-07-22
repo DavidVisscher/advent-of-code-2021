@@ -4,7 +4,7 @@ use std::process::ExitCode;
 #[derive(Debug)]
 enum Operation {
     add_horizontal,
-    add_aim
+    add_aim,
 }
 
 #[derive(Debug)]
@@ -21,7 +21,6 @@ fn main() {
     let final_answer = simulate_position(instructions);
     println!("Final value: {:?}", final_answer);
 }
-
 
 /// Calculates the final position of the submarine.
 fn simulate_position(instructions: Vec<Instruction>) -> i32 {
@@ -49,16 +48,15 @@ fn parse_instruction(input_string: &str) -> Instruction {
     let amount: i32 = parts[1].parse().unwrap();
 
     match direction_str {
-        "forward" => Instruction{ operation: Operation::add_horizontal, amount},
-        "up" => Instruction{ operation: Operation::add_aim, amount: -amount},
-        "down" => Instruction{ operation: Operation::add_aim, amount},
+        "forward" => Instruction { operation: Operation::add_horizontal, amount },
+        "up" => Instruction { operation: Operation::add_aim, amount: -amount },
+        "down" => Instruction { operation: Operation::add_aim, amount },
         &_ => panic!()
     }
 }
 
 /// Reads the input file and returns the list of parsed instructions.
 fn read_input_file(filename: &str) -> Vec<Instruction> {
-
     let contents = fs::read_to_string(filename)
         .expect("Reading input file failed");
     let mut output_instructions = Vec::new();
